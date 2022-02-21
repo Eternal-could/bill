@@ -1,6 +1,6 @@
 <template>
   <Layout class-prefix="layout">
-    {{record}}
+    {{recordList}}
     <NumberPad :value.sync="record.amount" @submit="saveRecord"/>
     <Types :value.sync="record.type"/>
     <Notes @update:value="onUpdateNotes"/>
@@ -16,11 +16,28 @@ import Tags from "@/components/Money/Tags.vue";
 import Vue from 'vue';
 import {Component, Prop, Watch} from 'vue-property-decorator';
 
+// const version = window.localStorage.getItem('version')||'0';
+const recordList: Record[] = JSON.parse(window.localStorage.getItem('recordList') || '[]')
+//
+//
+// if (version === '0.0.1') {
+//   // 数据库升级，数据迁移
+//   recordList.forEach(record=>{
+//     record.createAt = new Date(2022,1,21);
+//   })
+//   window.localStorage.setItem('recordList', JSON.stringify(recordList)); //保存数据
+// } else if (version === '0.0.2') {
+//   // 可以复用
+// }
+//
+// window.localStorage.setItem('version','0.0.2');
+
 type Record = {
   tags: string[],
   notes: string,
   type: string,
-  amount: number
+  amount: number,
+  createAt?: Date
 }
 
 @Component({
@@ -29,7 +46,7 @@ type Record = {
 export default class Money extends Vue {
   tags = ['衣','食','住','行'];
   record: Record = {tags: [], notes: '', type:'-', amount: 0 };
-  recordList: Record[] = [];
+  recordList: Record[] = recordList;
 
   onUpdateTags(value:string[]) {
     this.record.tags = value;
@@ -39,9 +56,9 @@ export default class Money extends Vue {
   }
   saveRecord() {
     // 深拷贝
-    const deepClone = JSON.parse(JSON.stringify(this.record))
+    const deepClone: Record = JSON.parse(JSON.stringify(this.record))
+    deepClone.createAt = new Date();
     this.recordList.push(deepClone);
-    console.log(this.recordList);
   }
   @Watch('recordList')
   onRecordListChange() {
