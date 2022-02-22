@@ -1,6 +1,5 @@
 <template>
   <Layout class-prefix="layout">
-    {{recordList}}
     <NumberPad :value.sync="record.amount" @submit="saveRecord"/>
     <Types :value.sync="record.type"/>
     <Notes @update:value="onUpdateNotes"/>
@@ -15,9 +14,11 @@ import Notes from "@/components/Money/Notes.vue";
 import Tags from "@/components/Money/Tags.vue";
 import Vue from 'vue';
 import {Component, Prop, Watch} from 'vue-property-decorator';
-import model from '@/model';
+import recordListModel from '@/models/recordListModel';
+import tagListModel from '@/models/tagListModel';
 // const version = window.localStorage.getItem('version')||'0';
-const recordList = model.fetch();
+const recordList = recordListModel.fetch();
+const tagList = tagListModel.fetch();
 //
 //
 // if (version === '0.0.1') {
@@ -38,7 +39,7 @@ const recordList = model.fetch();
   components: {Tags, Notes, Types, NumberPad},
 })
 export default class Money extends Vue {
-  tags = ['衣','食','住','行'];
+  tags = tagList;
   record: RecordItem = {tags: [], notes: '', type:'-', amount: 0 };
   recordList: RecordItem[] = recordList;
 
@@ -50,13 +51,13 @@ export default class Money extends Vue {
   }
   saveRecord() {
     // 深拷贝
-    const deepClone: RecordItem = model.clone(this.record)
+    const deepClone: RecordItem = recordListModel.clone(this.record)
     deepClone.createAt = new Date();
     this.recordList.push(deepClone);
   }
   @Watch('recordList')
   onRecordListChange() {
-    model.save(this.recordList)
+    recordListModel.save(this.recordList)
   }
 }
 </script>
