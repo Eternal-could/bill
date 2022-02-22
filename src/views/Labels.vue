@@ -1,10 +1,12 @@
 <template>
   <Layout>
     <div class="tags">
-      <div class="tag" v-for="tag in tags" :key="tag.id">
+      <router-link class="tag"
+                   v-for="tag in tags" :key="tag.id"
+                   :to="`/labels/edit/${tag.id}`">
         <span>{{tag.name}}</span>
         <Icon name="right"/>
-      </div>
+      </router-link>
     </div>
     <div class="createTag-wrapper">
       <Button class="createTag"
