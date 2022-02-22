@@ -15,9 +15,9 @@ import Notes from "@/components/Money/Notes.vue";
 import Tags from "@/components/Money/Tags.vue";
 import Vue from 'vue';
 import {Component, Prop, Watch} from 'vue-property-decorator';
-
+import model from '@/model';
 // const version = window.localStorage.getItem('version')||'0';
-const recordList: Record[] = JSON.parse(window.localStorage.getItem('recordList') || '[]')
+const recordList = model.fetch();
 //
 //
 // if (version === '0.0.1') {
@@ -32,21 +32,15 @@ const recordList: Record[] = JSON.parse(window.localStorage.getItem('recordList'
 //
 // window.localStorage.setItem('version','0.0.2');
 
-type Record = {
-  tags: string[],
-  notes: string,
-  type: string,
-  amount: number,
-  createAt?: Date
-}
+
 
 @Component({
   components: {Tags, Notes, Types, NumberPad},
 })
 export default class Money extends Vue {
   tags = ['衣','食','住','行'];
-  record: Record = {tags: [], notes: '', type:'-', amount: 0 };
-  recordList: Record[] = recordList;
+  record: RecordItem = {tags: [], notes: '', type:'-', amount: 0 };
+  recordList: RecordItem[] = recordList;
 
   onUpdateTags(value:string[]) {
     this.record.tags = value;
@@ -56,13 +50,13 @@ export default class Money extends Vue {
   }
   saveRecord() {
     // 深拷贝
-    const deepClone: Record = JSON.parse(JSON.stringify(this.record))
+    const deepClone: RecordItem = model.clone(this.record)
     deepClone.createAt = new Date();
     this.recordList.push(deepClone);
   }
   @Watch('recordList')
   onRecordListChange() {
-    window.localStorage.setItem('recordList', JSON.stringify(this.recordList));
+    model.save(this.recordList)
   }
 }
 </script>
