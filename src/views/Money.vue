@@ -20,7 +20,6 @@ import recordListModel from '@/models/recordListModel';
 import tagListModel from '@/models/tagListModel';
 // const version = window.localStorage.getItem('version')||'0';
 const recordList = recordListModel.fetch();
-const tagList = tagListModel.fetch();
 //
 //
 // if (version === '0.0.1') {
@@ -41,7 +40,7 @@ const tagList = tagListModel.fetch();
   components: {Tags, FormItem, Types, NumberPad},
 })
 export default class Money extends Vue {
-  tags = tagList;
+  tags = window.tagList;
   record: RecordItem = {tags: [], notes: '', type:'-', amount: 0 };
   recordList: RecordItem[] = recordList;
 
