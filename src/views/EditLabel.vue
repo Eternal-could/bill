@@ -28,6 +28,7 @@ import Button from '@/components/Button.vue';
   components: {Button, FormItem}
 })
 export default class EditLabel extends Vue {
+  // eslint-disable-next-line no-undef
   tag?: Tag = undefined;
 
   created() {
