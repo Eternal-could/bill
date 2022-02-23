@@ -9,7 +9,7 @@
         :key="index"
         :class="{selected: selectedTags.indexOf(tag) >= 0}"
         @click="toggle(tag)"
-      >{{tag}}</li>
+      >{{tag.name}}</li>
     </ul>
   </div>
 </template>
