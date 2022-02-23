@@ -48,14 +48,14 @@ export default class EditLabel extends Vue{
   remove() {
     if (this.tag) {
       if (tagListModel.remove(this.tag.id)) {
-        this.$router.back();
+        this.$router.go(-1);
       } else {
         window.alert('删除失败');
       }
     }
   }
   goBack() {
-    this.$router.back();
+    this.$router.go(-1);
   }
 }
 </script>
