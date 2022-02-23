@@ -14,6 +14,7 @@ const recordListModel = {
         const deepClone: RecordItem = clone(record)
         deepClone.createAt = new Date();
         this.data.push(deepClone);
+        this.save();
     }
 };
 export default recordListModel;
