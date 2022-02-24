@@ -2,12 +2,12 @@
   <div>
     <ul class="types">
       <li
-          :class="value === '-' && 'selected'"
+          :class="{selected: value==='-',[classPrefix + '-item']:classPrefix}"
           @click="selectType('-')"
       >支出
       </li>
       <li
-          :class="value === '+' && 'selected'"
+          :class="{selected: value==='+',[classPrefix + '-item']:classPrefix}"
           @click="selectType('+')"
       >收入
       </li>
@@ -17,14 +17,15 @@
 
 <script lang="ts">
 import Vue from 'vue';
-import {Component, Prop, Watch} from 'vue-property-decorator';
+import {Component, Prop,} from 'vue-property-decorator';
 // 1 自动提示更智能
 // 2 你不能随便写 .toString()
 // 3 编译报错， 无法变成js  严谨
 
 @Component
 export default class Types extends Vue {
-  @Prop() readonly value!: string;
+  @Prop(String) readonly value!: string;
+  @Prop(String) classPrefix?: string;
   //type = '-';  // - 代表支出 + 代表收入 相当于js的data（）{return {type:'-'}}
   //@Prop(Number) xxx: number | undefined;
   // Prop 告诉Vue.xxx 不是data而是prop
