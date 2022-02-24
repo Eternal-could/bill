@@ -28,10 +28,12 @@ import Button from '@/components/Button.vue';
   components: {Button, FormItem},
 })
 export default class EditLabel extends Vue {
+  // eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
   get currentTag() {
     return this.$store.state.currentTag
   }
 
+  // eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
   created() {
     const id = this.$route.params.id
     this.$store.commit('fetchTags')
@@ -41,6 +43,7 @@ export default class EditLabel extends Vue {
     }
   }
 
+  // eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
   update(name: string) {
     if (this.currentTag) {
       // TODO
@@ -50,12 +53,14 @@ export default class EditLabel extends Vue {
     }
   }
 
+  // eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
   remove() {
     if (this.currentTag) {
       this.$store.commit('removeTag',this.currentTag.id);
     }
   }
 
+  // eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
   goBack() {
     this.$router.go(-1);
   }
