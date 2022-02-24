@@ -1,6 +1,7 @@
 <template>
-    <ul class="tabs">
+    <ul class="tabs" :class="{[classPrefix+'-tabs']:classPrefix}">
       <li v-for="item in dataSource" :key="item.value"
+          class="tabs-item"
           :class="{selected: item.value === value,[classPrefix+'-tabs-item']: classPrefix}"
         @click="select(item)"
       >{{item.text}}</li>
@@ -18,6 +19,7 @@ export default class Tabs extends Vue {
   @Prop({required: true, type: Array}) dataSource!: DataSourceItem[]
   @Prop(String) readonly value!: string;
   @Prop(String) classPrefix?: string;
+  // eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
   select(item: DataSourceItem) {
     this.$emit('update:value',item.value)
   }
@@ -31,7 +33,7 @@ export default class Tabs extends Vue {
   text-align: center;
   font-size: 24px;
 
-  > li {
+  &-item {
     width: 50%;
     height: 64px;
     display: flex;
