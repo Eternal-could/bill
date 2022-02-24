@@ -12,7 +12,7 @@ const store = new Vuex.Store({
     },
     mutations: {
         fetchRecords(state) {
-          state.recordList = JSON.parse(window.localStorage.getItem('recordList') || '[]') as RecordItem[];
+            state.recordList = JSON.parse(window.localStorage.getItem('recordList') || '[]') as RecordItem[];
         },
         createRecord(state, record) {
             const deepClone: RecordItem = clone(record);
@@ -24,24 +24,24 @@ const store = new Vuex.Store({
             window.localStorage.setItem('recordList', JSON.stringify(state.recordList));
         },
         fetchTags(state) {
-          const tagList = JSON.parse(window.localStorage.getItem('tagList') || '[]');
-          return state.tagList = tagList;
+            const tagList = JSON.parse(window.localStorage.getItem('tagList') || '[]');
+            return state.tagList = tagList;
         },
-      createTag(state, name: string){
-        const names = state.tagList.map(item => item.name);
-        if (names.indexOf(name) >= 0) {
-          window.alert('标签名重复了');
-          return 'duplicated';
+        createTag(state, name: string) {
+            const names = state.tagList.map(item => item.name);
+            if (names.indexOf(name) >= 0) {
+                window.alert('标签名重复了');
+                return 'duplicated';
+            }
+            const id = createId().toString();
+            state.tagList.push({id, name: name});
+            store.commit('saveTags');
+            window.alert('添加成功');
+            return 'success';
+        },
+        saveTags(state) {
+            window.localStorage.setItem('tagList', JSON.stringify(state.tagList));
         }
-        const id = createId().toString();
-        state.tagList.push({id, name: name});
-        store.commit('saveTags')
-        window.alert('添加成功');
-        return 'success';
-      },
-      saveTags(state){
-        window.localStorage.setItem('tagList', JSON.stringify(state.tagList));
-      }
     }
 });
 
