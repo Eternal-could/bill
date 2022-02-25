@@ -5,9 +5,9 @@
       :value.sync="record.type"
     />
     <div class="notes">
-      <FormItem field-name="备注" @update:value="onUpdateNotes" placeholder="请输入备注"/>
+      <FormItem field-name="备注" :value.sync="record.notes" placeholder="请输入备注"/>
     </div>
-    <Tags/>
+    <Tags @update:value="record.tags = $event"/>
   </Layout>
 </template>
 
@@ -20,6 +20,7 @@ import {Component} from 'vue-property-decorator';
 import store from '@/store';
 import Tabs from '@/components/Tabs.vue';
 import recordTypeList from "@/constants/recordTypeList";
+import {RecordItem} from '@/custom';
 // const version = window.localStorage.getItem('version')||'0';
 //
 //
@@ -54,7 +55,15 @@ export default class Money extends Vue {
   }
   saveRecord() {
     // 深拷贝
+    if (this.record.tags.length === 0 || !this.record.tags) {
+      return window.alert('请至少选择一个标签');
+    }
     this.$store.commit('createRecord',this.record);
+    if (this.$store.state.createRecordError  === null) {
+      window.alert('已保存');
+      this.record.notes = '';
+    }
+
   }
 }
 </script>

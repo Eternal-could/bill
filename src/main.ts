@@ -6,6 +6,7 @@ import store from './store';
 import Nav from '@/components/Nav.vue';
 import Layout from '@/components/Layout.vue';
 import Icon from '@/components/Icon.vue';
+import {setup} from 'vue-class-component/dist/vue-class-component';
 Vue.config.productionTip = false;
 
 Vue.component('Nav', Nav);
@@ -17,3 +18,9 @@ new Vue({
     store,
     render: h => h(App)
 }).$mount('#app');
+
+window.onload = function () {
+    setTimeout(function () {
+        window.scrollTo(0,10000)
+    },0)
+}

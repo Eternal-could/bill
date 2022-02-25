@@ -1,5 +1,10 @@
+import {types} from 'sass';
+import Error = types.Error;
+
 type RootState = {
     recordList: RecordItem[],
+    createRecordError: Error | null,
+    createTagError: Error | null,
     tagList: Tag[],
     currentTag?: Tag
 }
